@@ -124,12 +124,14 @@ vtt.save_as_srt(str(data_folder/youtube_video_id) + '.srt')
 # %%
 import re
 
+# TODO: organize this mess
 full_text = ' '.join([cap.text for cap in captions])
-full_text = full_text.replace('  ', ' ')
+full_text = re.sub(r'[‘’\'\"\n]', ' ', full_text)
 full_text = re.sub(r'([A-Za-z]) +(\.)', r"\1\2", full_text)
 full_text = re.sub(r'\.+', '.', full_text)
 full_text = re.sub(r'\. +\.', '.', full_text)
-full_text = full_text.replace('’', "'")
+full_text = re.sub(r'\s\s+', ' ', full_text)
+
 with open(data_folder/'full_text.txt', 'w') as f:  # optional
     f.write(full_text)
 
@@ -175,7 +177,9 @@ class NewCaption(Caption):
 
 new_captions: List[NewCaption] = []
 for sent in sentences:
+    print(f'\n\n{sent=}')
     new_captions.append(NewCaption(sent))
+
 
 
 # %% [markdown]
@@ -208,7 +212,7 @@ synthesizer = Synthesizer(
 
 os.makedirs(data_folder/'wavs', exist_ok=True)
 
-resynthesize_existed = False  # for debug purposes
+resynthesize_existed = True  # False for debug purposes
 
 cur = 0
 for i, cap in enumerate(tqdm(new_captions)):
@@ -330,10 +334,12 @@ import math
 import matplotlib.pyplot as plt
 import matplotlib
 import seaborn as sns
-whole_video_duration_by_captions = int(captions[-1].start + captions[-1].duration) + 1
+duration_by_captions = int(captions[-1].start + captions[-1].duration) + 1
+duration_by_new_wavs = int(new_captions[-1].start + new_captions[-1].duration) + 1
+duration = max(duration_by_captions, duration_by_new_wavs)
 cols = 60
-rows = whole_video_duration_by_captions // 60 + 1
-rounder_dur = whole_video_duration_by_captions + (60 - whole_video_duration_by_captions % 60)
+rows = duration // 60 + 1
+rounder_dur = duration + (60 - duration % 60)
 
 time_matrix = np.zeros(rounder_dur, dtype=np.int)
 for i, cap in enumerate(new_captions):
@@ -369,8 +375,14 @@ import copy
 
 
 arranged_new_captions = copy.deepcopy(new_captions)
-whole_video_duration_by_captions = int(captions[-1].start + captions[-1].duration) + 1
-end_point = whole_video_duration_by_captions
+
+duration_by_captions = int(captions[-1].start + captions[-1].duration) + 1
+duration_by_new_wavs = int(new_captions[-1].start + new_captions[-1].duration) + 1
+duration = max(duration_by_captions, duration_by_new_wavs)
+
+# end_point = whole_video_duration_by_captions
+end_point = duration
+
 indexes: List[int] = []
 indexes.append(len(captions) - 1)  # first index = last
 
@@ -423,9 +435,9 @@ if not all(discrete_difference <= 0):
     print('Descending sequence check failed. Something went wrong with indexes.')
 
 cols = 60
-rows = whole_video_duration_by_captions // 60 + 1
+rows = duration // 60 + 1
 # Round DURATION in seconds up to the next multiple of 60
-rounder_dur = whole_video_duration_by_captions + (60 - whole_video_duration_by_captions % 60)
+rounder_dur = duration + (60 - duration % 60)
 
 time_matrix_2 = np.zeros(rounder_dur,  dtype=np.int)
 for i, cap in enumerate(arranged_new_captions):
@@ -462,8 +474,21 @@ for cap in tqdm(arranged_new_captions):
     audio_track = audio_track.overlay(sound, position=cap.start * 1000)
 audio_track.export(data_folder/'wavs'/'final.wav', format="wav").close()
 
+# %% [markdown]
+# # Optional. Save new subtitles file.
+# Warning. New subtitles made from 'clean' sentences. For example, quotation marks are removed. May be you need to fix it. Or even want to write a code for replace each sentence by sentence in full_text before cleaning (by fuzzy string matching).
+
 # %%
-# # Useless caption processing version partially in func-style with map/reduce.
+import webvtt
+
+vtt = webvtt.WebVTT()
+for cap in arranged_new_captions:
+    vtt.captions.append(webvtt.Caption(cap.timestamp_start(), cap.timestamp_end(), cap.text))
+vtt.save(str(data_folder/youtube_video_id) + '-new.vtt')
+vtt.save_as_srt(str(data_folder/youtube_video_id) + '-new.srt')
+
+# %%
+# # Useless captions processing version partially in func-style with map/reduce.
 
 # import itertools
 # import functools

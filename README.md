@@ -25,3 +25,5 @@ After:
 ![after](/img/after.png)
 
 If correspondend text in original subtitles not found then segment will be moved right while free space found. So you should consider if you need to re-calibrate in video-editor (for cases when too many manual changes in text was done).
+
+It is possible that English audio file will be longer then the original sound-track (you can notice this if there are no changes after arrangement). You can ignore it and fix in editor or try faster TTS model.
