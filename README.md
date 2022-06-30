@@ -1,6 +1,6 @@
-# Audio track generator.
+# Audio track generator from subtitles on YouTube
 
-## The main use case:
+## The main use case
 
 ## You have video with non-English audio, but you have English subtitles (or going to prepare). Now you are ready to generate new English audio-track for this video.
 
