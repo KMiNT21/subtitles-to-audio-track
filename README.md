@@ -1,11 +1,12 @@
-# The main use case
+# Audio track generator.
+
+## The main use case:
 
 ## You have video with non-English audio, but you have English subtitles (or going to prepare). Now you are ready to generate new English audio-track for this video.
 
 ![use-case](/img/use-case.jpg)
 
-## This notebook working steps:
-
+## Set your parameters in 'Setting' and run this jupyter notebook step-by-step skipping optional cells (like DeepSpeech testing for generated audio)
 
 1) Download captions for video id, save forever to local file. (Delete  pickle-file and repeat this step if you need to re-download).
 
