@@ -24,7 +24,7 @@
 # 1) Download captions for video id, save forever to local file, so, if captions changed, delete local pickle-file and repeat.
 # 2) Parse and clean text from captions
 # 3) Split text to sentences and synthesize WAV files for each sentence by **Mozilla TTS**.
-# 4) Arrange start point of each audio by matching text with subtitles. Visualize subtitles before and after arrangement by heat-map image. Rows = minutes. Cols = seconds. Numbers in cells = numbers of audio segment (check metadata.csv)
+# 4) Arrange start point of each audio by matching text with subtitles. Visualize subtitles before and after arrangement by heat-map image. Rows = minutes. Cols = seconds. Numbers in cells = numbers of audio segment.
 # 5) Concatenate all audio segment (and background music if not disabled) in one wav audio track.
 # 6) *Replace audio track in local video file.* Deprecated: you should replace audio-track in any video editor manually.
 
@@ -56,7 +56,7 @@ os.makedirs(data_folder/'wavs', exist_ok=True)
 
 # %%
 # %pip install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu113
-# %pip install youtube-transcript-api TTS soundfile pydub webvtt-py librosa
+# %pip install youtube-transcript-api nltk TTS soundfile pydub webvtt-py librosa seaborn matplotlib
 
 # %%
 import os
@@ -135,15 +135,15 @@ with open(data_folder/'full_text.txt', 'w') as f:  # optional
 
 # %% [markdown]
 # Last chance to make corrections in text or to rewrite.
-# You can edit text in full_text.txt and add cell to load changes: 
+# You can edit text in edited_full_text.txt and add cell to load changes: 
 #
 # `
-# full_text = open(data_folder/'full_text.txt', 'r').read()
+# full_text = open(data_folder/'edited_full_text.txt', 'r').read()
 # `
 #
 
 # %%
-full_text = open(data_folder/'new_full_text.txt', 'r').read()
+# full_text = open(data_folder/'edited_full_text.txt', 'r').read()
 
 # %%
 from typing import List
