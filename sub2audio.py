@@ -296,7 +296,6 @@ import numpy as np
 import librosa
 from tqdm.autonotebook import tqdm
 
-
 ds_model = 'S:/temp/data/models/deepspeech-0.9.3-models.pbmm'
 ds = Model(ds_model)
 ds_scorer = 'S:/temp/data/models/deepspeech-0.9.3-models.scorer'

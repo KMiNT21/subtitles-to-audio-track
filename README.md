@@ -6,7 +6,7 @@
 
 ![use-case](/img/use-case.jpg)
 
-## Set your parameters in 'Setting' and run this jupyter notebook step-by-step skipping optional cells (like DeepSpeech testing for generated audio)
+## Set your parameters in 'Setting' (like video ID from URL) and run this jupyter notebook step-by-step skipping optional cells (like DeepSpeech testing for generated audio)
 
 1) Download captions for video id, save forever to local file. (Delete  pickle-file and repeat this step if you need to re-download).
 
