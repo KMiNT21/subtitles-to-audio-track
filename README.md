@@ -1,8 +1,32 @@
-# Audio track generator from subtitles on YouTube
+# UPDATE 2023: This project is completely outdated. Thanks to the progress in Deep Learning, we now have new powerful tools!
+
+My new unpublished project works exclusively with YouTube URLs and produces a final video with a new English audio track. The process involves the following steps:
+
+1. Downloading the video using `yt_dlp`.
+2. Extracting the audio to WAV format.
+3. Utilizing WhisperX for text recognition.
+4. Saving the recognized text as `.STR` and a special `.TXT` format for further processing.
+5. Correcting errors in the text using `chatGPT` with a specific prompt.
+6. Translating the text to English using `chatGPT` with a dedicated prompt based on the video's topic context.
+7. Generating WAV files for each subtitle block using TTS (`TorToiSe`).
+8. Processing all these WAV files with WhisperX to compare the recognized text with the subtitle text.
+9. Concatenating all WAV files into a `FINAL.WAV` file, arranging them based on target time labels on the timeline.
+10. Rendering the `FINAL.MP4` file using `moviepy`, combining the original video with the new audio track and background music.
+11. Generating XX thumbnails to choose from, using random video frames and adding text using Pillow.
+
+Therefore, the input for this project is a URL, and the output is the `FINAL.MP4` file.
+
+## Therefore, the text below is merely historical and can be disregarded
+
+---
+---
+---
+
+## Audio track generator from subtitles on YouTube
 
 ## The main use case
 
-## You have video with non-English audio, but you have English subtitles (or going to prepare). Now you are ready to generate new English audio-track for this video.
+## You have video with non-English audio, but you have English subtitles (or going to prepare). Now you are ready to generate new English audio-track for this video
 
 ![use-case](/img/use-case.jpg)
 
