@@ -177,7 +177,7 @@ class NewCaption(Caption):
 
 new_captions: List[NewCaption] = []
 for sent in sentences:
-    # print(f'\n\n{sent=}')
+    print(f'\n\n{sent=}')
     new_captions.append(NewCaption(sent))
 
 
@@ -426,7 +426,6 @@ for new_cap in reversed(arranged_new_captions):
 
 
 import numpy as np
-import matplotlib
 import matplotlib.pyplot as plt
 import seaborn as sns
 
@@ -468,7 +467,7 @@ ax = sns.heatmap(time_matrix_2, linewidth=0, annot=time_matrix_2_without_zeros, 
 # %%
 from pydub import AudioSegment
 
-audio_track = AudioSegment.silent(duration=duration * 1000)
+audio_track = AudioSegment.silent(duration=whole_video_duration_by_captions * 1000)
 for cap in tqdm(arranged_new_captions):
     sound = AudioSegment.from_file(cap.wav_path, format="wav")
     audio_track = audio_track.overlay(sound, position=cap.start * 1000)
